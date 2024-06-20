@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Diceware Password Generator</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Add some CSS to change client UI -->
+    <style>
+        body {
+            background-color: #232F3E;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 30px;
+            color: aliceblue;
+        }
+        label, button {
+            color: #FF9900;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 30px;
+        }
+        input {
+            color: #232F3E;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 30px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        var copyToClipboard = ()=>{
+            navigator.clipboard.writeText(document.getElementById("passphrase").value);
+        }
+        // define the callAPI function that takes a first name and last name as parameters
+        var callAPI = ()=>{
+            // instantiate a headers object
+            var myHeaders = new Headers();
+            // add content type header to object
+            myHeaders.append("Content-Type", "application/json");
+            // create a JSON object with parameters for API call and store in a variable
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+            // get parameters values
+            var nbwords = document.getElementById("nbwords").value;
+            var separator = encodeURIComponent(document.getElementById("separator").value);
+            var capitalize = document.getElementById("capitalize").checked;
+            var lower = document.getElementById("lower").checked;
+            var upper = document.getElementById("upper").checked;
+            var number = document.getElementById("number").checked;
+            var special = document.getElementById("special").checked;
+            // initialize api call string with parameters
+            var apiUrl = "https://api.dpg.cury.fr";
+            var apiCall = `${apiUrl}?nbwords=${nbwords}&separator=${separator}&capitalize=${capitalize}&lower=${lower}&upper=${upper}&number=${number}&special=${special}`;
+            // make API call with parameters and use promises to get response
+            fetch(apiCall, requestOptions)
+                .then(response => response.text())
+                .then(result => document.getElementById("passphrase").value = result)
+                .then(result => copyToClipboard())
+                .catch(error => console.log('error', error));
+        }
+    </script>
+</head>
+<body onload="callAPI()">
+<form>
+    <div style="text-align: center;">
+        <input type=text id="passphrase" style="width:90%" readonly><br /><br />
+        <button type="button" onclick="copyToClipboard()">Copy to Clipboard</button><br />
+        <!-- set button onClick method to call function we defined passing input values as parameters -->
+        <button type="button" onclick="callAPI()">Generate new</button><br />
+        <br />
+        <hr>
+        <br />
+        <table style="margin-left: auto;margin-right: auto;">
+            <tr><td>Number of words in the passphrase </td><td><input type=number id="nbwords" min="1" max="10" value="5" style="width:100px"></td></tr>
+            <tr><td>Separator </td><td><input type="text" id="separator" value=" " style="width:100px"></td></tr>
+            <tr><td>Capitalize words </td><td><input type="checkbox" id="capitalize" checked></td></tr>
+            <tr><td>Use lowercase letters </td><td><input type="checkbox" id="lower" checked></td></tr>
+            <tr><td>Use uppercase letters </td><td><input type="checkbox" id="upper" checked></td></tr>
+            <tr><td>Use numbers </td><td><input type="checkbox" id="number" checked></td></tr>
+            <tr><td>Use special characters </td><td><input type="checkbox" id="special" checked></td></tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>
