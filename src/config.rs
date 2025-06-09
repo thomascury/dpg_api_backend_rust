@@ -8,6 +8,7 @@ pub struct Configuration {
     use_upper: bool,
     use_digit: bool,
     use_special: bool,
+    passphrase_minimum_length: u8,
     pub field_list: Vec<&'static str>,
 }
 
@@ -75,6 +76,15 @@ impl Configuration {
             None => (),
         }
     }
+    pub fn set_passphrase_minimum_length (&mut self, opt: Option<&str>) {
+        match opt {
+            Some(value) => {
+                self.passphrase_minimum_length = value.to_string().parse::<u8>().unwrap();
+                debug!("value for passphrase_minimum_length set to '{}'", self.passphrase_minimum_length)
+            },
+            None => (),
+        }
+    }
     pub fn get_word_count(&self) -> u8 {
         return self.word_count;
     }
@@ -96,6 +106,9 @@ impl Configuration {
     pub fn get_use_special(&self) -> bool {
         return self.use_special;
     }
+    pub fn get_passphrase_minimum_length(&self) -> u8 {
+        return self.passphrase_minimum_length;
+    }
 
     pub fn init() -> Configuration {
         let field_list_vec = Vec::from([
@@ -106,6 +119,7 @@ impl Configuration {
             "use_upper",
             "use_digit",
             "use_special",
+            "passphrase_minimum_length",
         ]);
         let config = Configuration {
             word_count: 5,
@@ -115,6 +129,7 @@ impl Configuration {
             use_upper: true,
             use_digit: true,
             use_special: true,
+            passphrase_minimum_length: 14,
             field_list: field_list_vec,
         };
         return config;
@@ -133,6 +148,7 @@ impl fmt::Display for Configuration {
                 "use_upper" => write!(f, "use_upper: {}, ", self.get_use_upper())?,
                 "use_digit" => write!(f, "use_digit: {}, ", self.get_use_digit())?,
                 "use_special" => write!(f, "use_special: {}", self.get_use_special())?,
+                "passphrase_minimum_length" => write!(f, "passphrase_minimum_length: {}", self.get_passphrase_minimum_length())?,
                 _ => ()
             }
         }
