@@ -31,10 +31,11 @@
     "upper": "true",
     "number": "true",
     "special": "true",
+    "passphminlen": "14",
     "loglevel": "debug"
   },
   "rawPath": "/dump",
-  "rawQueryString": "nbwords=5&separator=%20&capitalize=true&lower=true&upper=true&number=true&special=true&loglevel=debug",
+  "rawQueryString": "nbwords=5&separator=%20&capitalize=true&lower=true&upper=true&number=true&special=true&passphminlen=${passphminlen}&loglevel=debug",
   "requestContext": {
     "accountId": "123456789012",
     "apiId": "1234567890",
