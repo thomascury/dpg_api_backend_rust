@@ -5,7 +5,7 @@ mod config;
 use config::Configuration;
 
 use lambda_http::{run, service_fn, Body, Error as LambdaError, Request, RequestExt, Response};
-use rand::prelude::*;
+use rand::random_range;
 #[macro_use] extern crate log;
 extern crate core;
 
@@ -56,10 +56,9 @@ fn enforce_policy (policy: Policy, mut words: Vec<String>, separator: &str) -> V
     if policy.is_active {
         if !check_string(&passphrase, policy.validate) {
             debug!("Check for {} failed", policy);
-            let mut rng = thread_rng();
-            let word_index: usize = rng.gen_range(0..words.len());
-            let char_index: usize = rng.gen_range(0..words[word_index].len());
-            let insert_char_index: usize = rng.gen_range(0..policy.chars.len());
+            let word_index: usize = random_range(0..words.len());
+            let char_index: usize = random_range(0..words[word_index].len());
+            let insert_char_index: usize = random_range(0..policy.chars.len());
             let chars_vec: Vec<char> = policy.chars.chars().collect();
             let insert_char = chars_vec[insert_char_index];
             debug!(" > Adding char '{}' to word '{}' at position {}", insert_char, words[word_index], char_index);
@@ -108,11 +107,10 @@ fn initialize_policies (configuration: &Configuration) -> Vec<Policy> {
 }
 
 fn get_word (capitalized: bool) -> String {
-    let mut rng = thread_rng();
     let mut throws: Vec<char> = Vec::with_capacity(5);
 
     for _ in 0..throws.capacity() {
-        throws.push(char::from_digit(rng.gen_range(1..=6), 10).expect("Not a digit"));
+        throws.push(char::from_digit(random_range(1..=6), 10).expect("Not a digit"));
     }
 
     let throws_as_str: String = throws.into_iter().collect();
