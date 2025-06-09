@@ -1,5 +1,6 @@
 mod word_list;
-use word_list::get_beale_word;
+//use word_list::get_beale_word;
+use word_list::get_eff_large_list_word;
 mod config;
 use config::Configuration;
 
@@ -115,7 +116,8 @@ fn get_word (capitalized: bool) -> String {
     }
 
     let throws_as_str: String = throws.into_iter().collect();
-    let mut word = get_beale_word(&throws_as_str).unwrap_or("Undefined").to_string();
+    //let mut word = get_beale_word(&throws_as_str).unwrap_or("Undefined").to_string();
+    let mut word = get_eff_large_list_word(&throws_as_str).unwrap_or("Undefined").to_string();
     debug!("Beale word for key '{}' is '{}'", throws_as_str, word);
 
     if capitalized {
