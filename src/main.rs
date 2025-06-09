@@ -162,7 +162,8 @@ fn generate_response (status: u16, body: &str) -> Result<Response<Body>, LambdaE
 async fn function_handler(event: Request) -> Result<Response<Body>, LambdaError> {
     // AWS Runtime can ignore Stage Name passed from json event
     // https://github.com/awslabs/aws-lambda-rust-runtime/issues/782
-    std::env::set_var("AWS_LAMBDA_HTTP_IGNORE_STAGE_IN_PATH", "true");
+    // Moved to Lambda itself, see https://github.com/awslabs/aws-lambda-rust-runtime/commit/355627ea09b295146e64f488a9d1f517293996a2 and https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html
+    //std::env::set_var("AWS_LAMBDA_HTTP_IGNORE_STAGE_IN_PATH", "true");
 
     // Set default values
     let mut gen_parameters = Configuration::init();
@@ -193,7 +194,11 @@ async fn function_handler(event: Request) -> Result<Response<Body>, LambdaError>
             }
             // Using standard logging
             let level = get_loglevel(query_parameters.first("loglevel"));
-            std::env::set_var("RUST_LOG", level);
+            // https://github.com/rust-lang/rust/issues/90308
+            unsafe {
+                std::env::set_var("RUST_LOG", level);
+                std::env::set_var("RUST_BACKTRACE", "1");
+            }
             let _ = env_logger::try_init();
             debug!("Initialized logging facilities with max logging level set to '{}'", level)
         },
