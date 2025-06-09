@@ -51,9 +51,10 @@
             var upper = document.getElementById("upper").checked;
             var number = document.getElementById("number").checked;
             var special = document.getElementById("special").checked;
+            var passphminlen = document.getElementById("passphminlen").value;
             // initialize api call string with parameters
             var apiUrl = "https://api.dpg.cury.fr";
-            var apiCall = `${apiUrl}?nbwords=${nbwords}&separator=${separator}&capitalize=${capitalize}&lower=${lower}&upper=${upper}&number=${number}&special=${special}`;
+            var apiCall = `${apiUrl}?nbwords=${nbwords}&separator=${separator}&capitalize=${capitalize}&lower=${lower}&upper=${upper}&number=${number}&special=${special}&passphminlen=${passphminlen}&loglevel=debug`;
             // make API call with parameters and use promises to get response
             fetch(apiCall, requestOptions)
                 .then(response => response.text())
@@ -75,12 +76,13 @@
         <br />
         <table style="margin-left: auto;margin-right: auto;">
             <tr><td>Number of words in the passphrase </td><td><input type=number id="nbwords" min="1" max="10" value="5" style="width:100px"></td></tr>
-            <tr><td>Separator </td><td><input type="text" id="separator" value=" " style="width:100px"></td></tr>
+            <tr><td>Separator </td><td><input type="text" id="separator" value="_" style="width:100px"></td></tr>
             <tr><td>Capitalize words </td><td><input type="checkbox" id="capitalize" checked></td></tr>
-            <tr><td>Use lowercase letters </td><td><input type="checkbox" id="lower" checked></td></tr>
-            <tr><td>Use uppercase letters </td><td><input type="checkbox" id="upper" checked></td></tr>
-            <tr><td>Use numbers </td><td><input type="checkbox" id="number" checked></td></tr>
-            <tr><td>Use special characters </td><td><input type="checkbox" id="special" checked></td></tr>
+            <tr><td>Use lowercase letters (always true) </td><td><input type="checkbox" id="lower" checked disabled></td></tr>
+            <tr><td>Add uppercase letters (if not yet present) </td><td><input type="checkbox" id="upper" checked></td></tr>
+            <tr><td>Add number (if not yet present) </td><td><input type="checkbox" id="number" checked></td></tr>
+            <tr><td>Add special characters (if not yet present) </td><td><input type="checkbox" id="special" checked></td></tr>
+            <tr><td>Minimum passphrase length (numbers of characters) </td><td><input type=number id="passphminlen" min="17" max="64" value="17" style="width:100px"></td></tr>
         </table>
     </div>
 </form>
