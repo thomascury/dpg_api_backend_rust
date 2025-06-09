@@ -215,7 +215,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, LambdaError>
                 "use_upper" => gen_parameters.set_use_upper(query_parameters.first("upper")),
                 "use_digit" => gen_parameters.set_use_digit(query_parameters.first("number")),
                 "use_special" => gen_parameters.set_use_special(query_parameters.first("special")),
-                "passphrase_minimum_length" => gen_parameters.set_passphrase_minimum_length(query_parameters.first("passphrase_minimum_length")),
+                "passphrase_minimum_length" => gen_parameters.set_passphrase_minimum_length(query_parameters.first("passphminlen")),
                 _ => (),
             }
         };
