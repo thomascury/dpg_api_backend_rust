@@ -142,8 +142,12 @@ fn create_passphrase (configuration: Configuration) -> Result<String, &'static s
         }
     }
     
-    let passphrase: String = words.join(configuration.get_separator());
+    let mut passphrase: String = words.join(configuration.get_separator());
     info!("Generated passphrase is '{}'", passphrase);
+    
+    if passphrase.len() < configuration.get_passphrase_minimum_length() as usize {
+        passphrase = create_passphrase(configuration)?;
+    }
 
     return Ok(passphrase);
 }

@@ -129,7 +129,7 @@ impl Configuration {
             use_upper: true,
             use_digit: true,
             use_special: true,
-            passphrase_minimum_length: 14,
+            passphrase_minimum_length: 19,
             field_list: field_list_vec,
         };
         return config;

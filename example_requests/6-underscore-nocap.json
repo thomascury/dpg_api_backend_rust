@@ -35,7 +35,7 @@
     "loglevel": "debug"
   },
   "rawPath": "/dump",
-  "rawQueryString": "nbwords=6&separator=%5F&capitalize=false&lower=true&upper=true&number=true&special=true&passphminlen=14&loglevel=debug",
+  "rawQueryString": "nbwords=6&separator=%5F&capitalize=false&lower=true&upper=true&number=true&special=true&passphminlen=19&loglevel=debug",
   "requestContext": {
     "accountId": "123456789012",
     "apiId": "1234567890",
