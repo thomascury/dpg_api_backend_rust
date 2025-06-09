@@ -15,7 +15,7 @@ use core::fmt;
 const LOWER: &str = "abcdefghijklmnopqrstuvwxyz";
 const UPPER: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const DIGITS: &str = "0123456789";
-const SPECIALS: &str = r##"~!#$%^&*()-=+[]{}:;\"'<>?/"##;
+const SPECIALS: &str = r##"~!#$%^&*()-_=+[]{}:;\"'<>?/"##;
 
 fn is_special (c: char) -> bool {
     return SPECIALS.contains(c);
